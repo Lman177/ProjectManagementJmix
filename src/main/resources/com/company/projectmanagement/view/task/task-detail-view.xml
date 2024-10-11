@@ -5,7 +5,9 @@
     <data>
         <instance id="taskDc"
                   class="com.company.projectmanagement.entity.Task">
-            <fetchPlan extends="_base"/>
+            <fetchPlan extends="_base">
+                <property name="assignee" fetchPlan="_base"/>
+            </fetchPlan>
             <loader id="taskDl"/>
         </instance>
     </data>
@@ -23,6 +25,18 @@
             <select id="priorityField" property="priority"/>
             <textArea id="descriptionField" height="9.5em" property="description"/>
             <textField id="estimationField" property="estimation"/>
+            <entityPicker id="assigneeField" property="assignee">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <fileStorageUploadField id="attachmentField"
+                                    property="attachment"
+                                    clearButtonVisible="true"
+                                    maxFileSize="100000000"
+                                    uploadIcon="vaadin:upload"
+                                    fileNameVisible="true"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

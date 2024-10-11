@@ -29,16 +29,16 @@ public class ProjectStatsService {
             stat.setTasksCount(project.getTasks().size());
             Integer plannedEfforts = project.getTasks().stream().map(Task::getEstimation).reduce(0, Integer::sum);
             stat.setPlannedEfforts(plannedEfforts);
-//            stat.setActualEfforts(getActualEfforts(project.getId()));
+            stat.setActualEfforts(getActualEfforts(project.getId()));
             return stat;
         }).collect(Collectors.toList());
         return projectStats;
     }
 
-//    public Integer getActualEfforts(UUID projectId){
-//        return dataManager.loadValue("select SUM(te.timeSpent) from TimeEntry te " +
-//                "where te.task.project.id = :projectId", Integer.class)
-//                .parameter("projectId", projectId)
-//                .one();
-//    }
+    public Integer getActualEfforts(UUID projectId){
+        return dataManager.loadValue("select SUM(te.timeSpent) from TimeEntry te " +
+                "where te.task.project.id = :projectId", Integer.class)
+                .parameter("projectId", projectId)
+                .one();
+    }
 }
