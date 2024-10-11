@@ -7,13 +7,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.UUID;
-
 @JmixEntity
-@Table(name = "TIME_ENTRY", indexes = {
-        @Index(name = "IDX_TIME_ENTRY_USER", columnList = "USER_ID")
-})
+@Table(name = "TIME_ENTRY")
 @Entity
 public class TimeEntry {
     @JmixGeneratedValue
@@ -21,18 +18,20 @@ public class TimeEntry {
     @Id
     private UUID id;
 
+    @JoinColumn(name = "TASK_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Task task;
+
     @PositiveOrZero
-    @Column(name = "TIME_SPEN", nullable = false)
+    @Column(name = "TIME_SPENT", nullable = false)
     @NotNull
-    private Integer timeSpen;
+    private Integer timeSpent;
 
-    @Column(name = "ENTRY_DATE", nullable = false)
-    @NotNull
-    private LocalTime entryDate;
+    @Column(name = "ENTRY_DATE")
+    private LocalDateTime entryDate;
 
-    @JoinColumn(name = "USER_ID", nullable = false)
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @InstanceName
@@ -56,20 +55,28 @@ public class TimeEntry {
         this.user = user;
     }
 
-    public LocalTime getEntryDate() {
+    public LocalDateTime getEntryDate() {
         return entryDate;
     }
 
-    public void setEntryDate(LocalTime entryDate) {
+    public void setEntryDate(LocalDateTime entryDate) {
         this.entryDate = entryDate;
     }
 
-    public Integer getTimeSpen() {
-        return timeSpen;
+    public Integer getTimeSpent() {
+        return timeSpent;
     }
 
-    public void setTimeSpen(Integer timeSpen) {
-        this.timeSpen = timeSpen;
+    public void setTimeSpent(Integer timeSpent) {
+        this.timeSpent = timeSpent;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public UUID getId() {
